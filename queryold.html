@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Query Students</title>
+</head>
+<body>
+<div class="container">
+  <h1>Query Student Records</h1>
+  <input type="text" id="filterName" placeholder="Filter by Name">
+  <button onclick="queryData()">Search</button>
+  <button onclick="queryData(true)">All Records</button>
+  <table id="results">
+    <thead>
+      <tr>
+        <th>ID</th>
+				<th>Name</th>
+				<th>Year</th>
+				<th>BoxNo</th>
+				<th>Seq</th>
+				<th>Contact No</th>
+				<th>Cond Detl</th>
+				<th>File State</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <a href="index.html">Go to Insert Page</a>
+</div>
+
+<script>
+async function queryData(all=false) {
+    const name = document.getElementById('filterName').value;
+    const query = all ? '/query' : `/query?name=${name}`;
+    const res = await fetch(query);
+    const rows = await res.json();
+    const tbody = document.querySelector('#results tbody');
+    tbody.innerHTML = '';
+    rows.forEach(r => {
+        tbody.innerHTML += `<tr>
+            <td>${r.id}</td><td>${r.name}</td><td>${r.year}</td><td>${r.boxno}</td><td>${r.seq}</td>
+            <td>${r.cont_cnt}</td><td>${r.cont_detl}</td><td>${r.file_state}</td>
+        </tr>`;
+    });
+}
+</script>
+</body>
+</html>

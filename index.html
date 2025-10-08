@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Insert Student</title>
+</head>
+<body>
+<div class="container">
+  <h1>Insert Student Record</h1>
+  <form id="studentForm">
+    <input type="text" name="name" placeholder="Name">
+    <input type="number" name="year" placeholder="Year">
+    <input type="text" name="boxno" placeholder="Box No">
+    <input type="number" name="seq" placeholder="Sequence">
+    <input type="text" name="cont_cnt" placeholder="Contact No">
+    <input type="text" name="cont_detl" placeholder="Condition Details">
+    <input type="text" name="file_state" placeholder="File State">
+    <button type="submit">Save</button>
+    <button type="reset">Reset</button>
+  </form>
+  <a href="query.html">Go to Query Page</a>
+</div>
+
+<script>
+const form = document.getElementById('studentForm');
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form));
+		try{
+				const res = await fetch('/insert', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+				});
+				const result = await res.json();
+				alert('Saved with ID: ' + result.id);
+				form.reset();
+			}
+			catch(err){
+			console.error(err);
+			alert('Error insering : ' + err.message);
+			}
+});
+</script>
+</body>
+</html>
